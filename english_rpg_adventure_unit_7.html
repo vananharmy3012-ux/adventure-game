@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGLISH RPG ADVENTURE - UNIT 7: PLACES TO GO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        rpg: {
+                            gold: '#fbbf24',
+                            dark: '#0f172a',
+                            panel: '#1e293b',
+                            accent: '#8b5cf6',
+                            danger: '#ef4444',
+                            success: '#22c55e',
+                            blue: '#3b82f6'
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-short': 'bounce 0.5s ease-in-out infinite',
+                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            user-select: none;
+        }
+        .font-game {
+            font-family: 'Fredoka', cursive;
+        }
+        .rpg-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .rpg-card-gold {
+            background: linear-gradient(135deg, rgba(45, 35, 10, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid rgba(251, 191, 36, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.2);
+        }
+        .btn-rpg {
+            transition: all 0.15s ease-in-out;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+        }
+        .btn-rpg:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+        }
+        .hp-bar-fill {
+            transition: width 0.4s ease-out, background-color 0.3s;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+        .hit-number {
+            animation: hitFloat 0.8s ease-out forwards;
+        }
+        @keyframes hitFloat {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            50% { opacity: 1; transform: translateY(-30px) scale(1.4); }
+            100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden bg-slate-950 text-slate-100">
+
+    <!-- Top Bar Navigation -->
+    <header class="bg-slate-900/90 border-b border-purple-900/50 sticky top-0 z-40 backdrop-blur-md px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('study')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-amber-400 flex items-center justify-center text-xl shadow-lg shadow-purple-500/30">
+                    ⚔️
+                </div>
+                <div>
+                    <h1 class="font-game text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-amber-100 to-purple-300">
+                        ENGLISH RPG ADVENTURE
+                    </h1>
+                    <p class="text-xs text-purple-300 font-semibold tracking-wide">UNIT 7: PLACES TO GO (LESSON 1 & 2)</p>
+                </div>
+            </div>
+
+            <!-- Main Navigation Controls -->
+            <nav class="flex items-center gap-1 sm:gap-2 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800">
+                <button id="nav-study" onclick="switchTab('study')" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold font-game flex items-center gap-2 transition bg-purple-600 text-white shadow-md">
+                    <i class="fa-solid font-bold fa-book-open"></i> <span class="hidden sm:inline">Ôn Tập</span> (Study)
+                </button>
+                <button id="nav-practice" onclick="switchTab('practice')" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold font-game flex items-center gap-2 transition text-slate-400 hover:text-white">
+                    <i class="fa-solid font-bold fa-gamepad"></i> <span class="hidden sm:inline">Luyện Tập</span> (Mini-Game)
+                </button>
+                <button id="nav-rpg" onclick="switchTab('rpg')" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold font-game flex items-center gap-2 transition text-slate-400 hover:text-white">
+                    <i class="fa-solid font-bold fa-dragon"></i> <span class="hidden sm:inline">Thám Hiểm</span> (RPG Solo)
+                </button>
+                <button id="nav-team" onclick="switchTab('team')" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold font-game flex items-center gap-2 transition text-slate-400 hover:text-white">
+                    <i class="fa-solid font-bold fa-users"></i> <span class="hidden sm:inline">Đấu Đội</span> (Team Battle)
+                </button>
+            </nav>
+
+            <!-- Audio Controller -->
+            <div class="flex items-center gap-2">
+                <button id="sound-btn" onclick="toggleSound()" class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 flex items-center justify-center text-amber-400 transition">
+                    <i class="fa-solid fa-volume-high text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 relative">
+
+        <!-- ==================== 1. STUDY ZONE (MỤC ÔN TẬP) ==================== -->
+        <section id="tab-study" class="space-y-6">
+            <!-- Lesson Selector Sub-Tabs -->
+            <div class="flex justify-center gap-3 border-b border-slate-800 pb-4">
+                <button id="subtab-l1" onclick="switchStudyLesson(1)" class="px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200">
+                    📍 Lesson 1: Places to Go (Địa Điểm Vui Chơi)
+                </button>
+                <button id="subtab-l2" onclick="switchStudyLesson(2)" class="px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500">
+                    🛍️ Lesson 2: Shops & Places (Cửa Hàng)
+                </button>
+            </div>
+
+            <!-- LESSON 1 CONTENT -->
+            <div id="study-lesson-1" class="space-y-8">
+                <!-- Vocab Section L1 -->
+                <div>
+                    <h2 class="font-game text-2xl font-bold text-amber-300 flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-icons text-purple-400"></i> Từ Vựng Lesson 1 (Places & Time)
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="l1-vocab-grid">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Grammar Section L1 -->
+                <div class="rpg-card rounded-2xl p-6 border-purple-500/40">
+                    <h2 class="font-game text-2xl font-bold text-amber-300 flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-scroll text-amber-400"></i> Cấu Trúc Ngữ Pháp Lesson 1 (He / She - Was / Wasn't)
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Grammar Box 1 -->
+                        <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-900/50 space-y-3">
+                            <span class="inline-block px-3 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-bold rounded-lg">1. Hỏi & Trả Lời Nơi Ở Quá Khứ</span>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-sm text-amber-200">
+                                <span class="text-pink-400 font-bold">Where was</span> + <span class="text-cyan-300">he / she</span> + <span class="text-emerald-400">yesterday</span>?
+                                <div class="mt-1 text-slate-300">➔ <span class="text-cyan-300">He / She</span> <span class="text-pink-400 font-bold">was</span> at the + <span class="text-amber-300">[địa điểm]</span>.</div>
+                            </div>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-center justify-between p-2 bg-slate-800/60 rounded-lg">
+                                    <div><strong>Ví dụ 1:</strong> Where was he yesterday? ➔ He was at the aquarium.</div>
+                                    <button onclick="speakText('Where was he yesterday? He was at the aquarium.')" class="text-amber-400 hover:text-amber-300 p-1"><i class="fa-solid fa-volume-high"></i></button>
+                                </div>
+                                <div class="flex items-center justify-between p-2 bg-slate-800/60 rounded-lg">
+                                    <div><strong>Ví dụ 2:</strong> Where was she yesterday? ➔ She was at the beach.</div>
+                                    <button onclick="speakText('Where was she yesterday? She was at the beach.')" class="text-amber-400 hover:text-amber-300 p-1"><i class="fa-solid fa-volume-high"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grammar Box 2 -->
+                        <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-900/50 space-y-3">
+                            <span class="inline-block px-3 py-1 bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold rounded-lg">2. Câu Hỏi Yes/No Với Was</span>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-sm text-amber-200">
+                                <span class="text-pink-400 font-bold">Was</span> + <span class="text-cyan-300">he / she</span> + at the + <span class="text-amber-300">[địa điểm]</span> + <span class="text-emerald-400">yesterday</span>?
+                                <div class="mt-1 text-slate-300">➔ <span class="text-emerald-400 font-bold">Yes</span>, <span class="text-cyan-300">he/she</span> <span class="text-pink-400 font-bold">was</span>.</div>
+                                <div class="text-slate-300">➔ <span class="text-red-400 font-bold">No</span>, <span class="text-cyan-300">he/she</span> <span class="text-red-400 font-bold">wasn't</span>.</div>
+                            </div>
+                            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-xs text-amber-300 space-y-1">
+                                <div>💡 <strong>Ghi nhớ cốt lõi:</strong></div>
+                                <div>• <strong>wasn't</strong> = <strong>was not</strong></div>
+                                <div>• Chủ ngữ số ít <strong>he / she / I</strong> ➔ dùng <strong>was / wasn't</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LESSON 2 CONTENT -->
+            <div id="study-lesson-2" class="space-y-8 hidden">
+                <!-- Vocab Section L2 -->
+                <div>
+                    <h2 class="font-game text-2xl font-bold text-amber-300 flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-store text-pink-400"></i> Từ Vựng Lesson 2 (Shops & Places)
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="l2-vocab-grid">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Grammar Section L2 -->
+                <div class="rpg-card rounded-2xl p-6 border-purple-500/40">
+                    <h2 class="font-game text-2xl font-bold text-amber-300 flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-scroll text-amber-400"></i> Cấu Trúc Ngữ Pháp Lesson 2 (They - Were / Weren't)
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Grammar Box 1 -->
+                        <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-900/50 space-y-3">
+                            <span class="inline-block px-3 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-bold rounded-lg">1. Hỏi Nhiều Người (They) Ở Đâu</span>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-sm text-amber-200">
+                                <span class="text-pink-400 font-bold">Where were</span> + <span class="text-cyan-300">they</span> + <span class="text-emerald-400">yesterday</span>?
+                                <div class="mt-1 text-slate-300">➔ <span class="text-cyan-300">They</span> <span class="text-pink-400 font-bold">were</span> at the + <span class="text-amber-300">[địa điểm]</span>.</div>
+                            </div>
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-center justify-between p-2 bg-slate-800/60 rounded-lg">
+                                    <div><strong>Ví dụ:</strong> Where were they yesterday? ➔ They were at the bookstore.</div>
+                                    <button onclick="speakText('Where were they yesterday? They were at the bookstore.')" class="text-amber-400 hover:text-amber-300 p-1"><i class="fa-solid fa-volume-high"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grammar Box 2 -->
+                        <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-900/50 space-y-3">
+                            <span class="inline-block px-3 py-1 bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold rounded-lg">2. Hỏi Yes/No Với Were</span>
+                            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-sm text-amber-200">
+                                <span class="text-pink-400 font-bold">Were</span> <span class="text-cyan-300">they</span> + at the + <span class="text-amber-300">[địa điểm]</span> + <span class="text-emerald-400">yesterday</span>?
+                                <div class="mt-1 text-slate-300">➔ <span class="text-emerald-400 font-bold">Yes</span>, <span class="text-cyan-300">they</span> <span class="text-pink-400 font-bold">were</span>.</div>
+                                <div class="text-slate-300">➔ <span class="text-red-400 font-bold">No</span>, <span class="text-cyan-300">they</span> <span class="text-red-400 font-bold">weren't</span>. They were at the + <span class="text-amber-300">[địa điểm đúng]</span>.</div>
+                            </div>
+                            <div class="p-3 bg-amber-950/30 border border-amber-800/40 rounded-lg text-xs text-amber-300 space-y-1">
+                                <div>💡 <strong>Bảng So Sánh Chủ Ngữ:</strong></div>
+                                <div>• <strong>they / we / you</strong> ➔ dùng <strong>were / weren't</strong></div>
+                                <div>• <strong>he / she / I</strong> ➔ dùng <strong>was / wasn't</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2. PRACTICE MINI-GAMES ==================== -->
+        <section id="tab-practice" class="space-y-6 hidden">
+            <div class="flex justify-center gap-3 border-b border-slate-800 pb-4">
+                <button id="minigame-tab-vocab" onclick="switchMiniGame('vocab')" class="px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200">
+                    ⚡ Mini-Game 1: Ghép Từ Tốc Độ
+                </button>
+                <button id="minigame-tab-grammar" onclick="switchMiniGame('grammar')" class="px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500">
+                    🧩 Mini-Game 2: Điền Was / Were / Wasn't / Weren't
+                </button>
+            </div>
+
+            <!-- Mini Game 1: Vocab Match -->
+            <div id="game-vocab-container" class="rpg-card rounded-2xl p-6 border-purple-500/40 max-w-3xl mx-auto text-center space-y-6">
+                <div>
+                    <h3 class="font-game text-2xl font-bold text-amber-300">Ghép Từ Siêu Tốc (Vocab Speed Match)</h3>
+                    <p class="text-slate-400 text-sm">Chọn cặp Từ Tiếng Anh và Nghĩa Tiếng Việt tương ứng!</p>
+                </div>
+                <div class="flex justify-between items-center bg-slate-900 p-3 rounded-xl border border-slate-800">
+                    <span class="font-bold text-amber-400">Điểm: <span id="vocab-score">0</span></span>
+                    <button onclick="startVocabMiniGame()" class="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold font-game rounded-lg text-sm">Chơi Mới 🔄</button>
+                </div>
+                <div id="vocab-match-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <!-- Cards dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Mini Game 2: Fill Grammar -->
+            <div id="game-grammar-container" class="rpg-card rounded-2xl p-6 border-purple-500/40 max-w-2xl mx-auto space-y-6 hidden">
+                <div class="text-center">
+                    <h3 class="font-game text-2xl font-bold text-amber-300">Thử Thách Was / Were / Wasn't / Weren't</h3>
+                    <p class="text-slate-400 text-sm">Điền từ chính xác vào khoảng trống để hoàn thành câu!</p>
+                </div>
+                <div id="grammar-quiz-card" class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-6">
+                    <div id="grammar-quiz-question" class="text-lg font-bold text-center text-purple-200">
+                        <!-- Question text -->
+                    </div>
+                    <div id="grammar-quiz-options" class="grid grid-cols-2 gap-3">
+                        <!-- Option buttons -->
+                    </div>
+                    <div id="grammar-quiz-feedback" class="p-3 rounded-lg text-center font-bold text-sm hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 3. RPG ADVENTURE SOLO STAGE ==================== -->
+        <section id="tab-rpg" class="space-y-6 hidden">
+
+            <!-- Stage Selection Screen -->
+            <div id="rpg-stage-select" class="space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="font-game text-3xl font-bold text-amber-300">CHỌN MÀN CHƠI THÁM HIỂM (SELECT STAGE)</h2>
+                    <p class="text-slate-400 text-sm max-w-xl mx-auto">
+                        Mỗi màn gồm <strong class="text-amber-400">14 CÂU HỎI</strong>. Mỗi câu có <strong class="text-red-400">30 GIÂY</strong> trả lời. Cần trả lời đúng ít nhất <strong class="text-emerald-400">10/14 CÂU (>=70%)</strong> và giữ máu HP > 0 để tiêu diệt Quái Vật!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Stage 1 -->
+                    <div class="rpg-card rounded-2xl p-6 flex flex-col justify-between border-emerald-500/40 hover:border-emerald-400 transition transform hover:-translate-y-1">
+                        <div class="space-y-4">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-3xl shadow-lg">
+                                🌲
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Stage 1</span>
+                                <h3 class="font-game text-xl font-bold text-emerald-200">Rừng Vui Chơi (Fun Forest)</h3>
+                                <p class="text-xs text-slate-400 mt-1">Nội dung: Từ vựng & Ngữ pháp Lesson 1 (Beach, Aquarium, Was/Wasn't...)</p>
+                            </div>
+                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+                                <div class="flex justify-between"><span>Số câu hỏi:</span> <strong class="text-amber-400">14 câu</strong></div>
+                                <div class="flex justify-between"><span>Thời gian / câu:</span> <strong class="text-amber-400">30 giây</strong></div>
+                                <div class="flex justify-between"><span>Quái vật:</span> <strong class="text-emerald-400">Green Goblin 👺</strong></div>
+                            </div>
+                        </div>
+                        <button onclick="startRpgStage(1)" class="mt-6 w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 font-game font-bold text-slate-950 rounded-xl shadow-lg btn-rpg">
+                            CHIẾN ĐẤU ngay ⚔️
+                        </button>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="rpg-card rounded-2xl p-6 flex flex-col justify-between border-cyan-500/40 hover:border-cyan-400 transition transform hover:-translate-y-1">
+                        <div class="space-y-4">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-950 border border-cyan-500/50 flex items-center justify-center text-3xl shadow-lg">
+                                🏙️
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Stage 2</span>
+                                <h3 class="font-game text-xl font-bold text-cyan-200">Thành Phố Cửa Hàng (Shop City)</h3>
+                                <p class="text-xs text-slate-400 mt-1">Nội dung: Từ vựng & Ngữ pháp Lesson 2 (Bookstore, Pharmacy, They Were/Weren't...)</p>
+                            </div>
+                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+                                <div class="flex justify-between"><span>Số câu hỏi:</span> <strong class="text-amber-400">14 câu</strong></div>
+                                <div class="flex justify-between"><span>Thời gian / câu:</span> <strong class="text-amber-400">30 giây</strong></div>
+                                <div class="flex justify-between"><span>Quái vật:</span> <strong class="text-cyan-400">Urban Golem 🗿</strong></div>
+                            </div>
+                        </div>
+                        <button onclick="startRpgStage(2)" class="mt-6 w-full py-3 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 font-game font-bold text-slate-950 rounded-xl shadow-lg btn-rpg">
+                            CHIẾN ĐẤU ngay ⚔️
+                        </button>
+                    </div>
+
+                    <!-- Stage 3 (Boss) -->
+                    <div class="rpg-card-gold rounded-2xl p-6 flex flex-col justify-between border-amber-500/60 hover:border-amber-400 transition transform hover:-translate-y-1">
+                        <div class="space-y-4">
+                            <div class="w-16 h-16 rounded-2xl bg-amber-950 border border-amber-500/50 flex items-center justify-center text-3xl shadow-lg animate-pulse-fast">
+                                👑
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Stage 3 - BOSS</span>
+                                <h3 class="font-game text-xl font-bold text-amber-300">Đấu Trùm Ma Vương (Dark Lord)</h3>
+                                <p class="text-xs text-slate-400 mt-1">Nội dung: Tổng hợp nâng cao Lesson 1 & Lesson 2</p>
+                            </div>
+                            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+                                <div class="flex justify-between"><span>Số câu hỏi:</span> <strong class="text-amber-400">14 câu</strong></div>
+                                <div class="flex justify-between"><span>Thời gian / câu:</span> <strong class="text-amber-400">30 giây</strong></div>
+                                <div class="flex justify-between"><span>Trùm Ma Vương:</span> <strong class="text-amber-400">Shadow Lord 🐉</strong></div>
+                            </div>
+                        </div>
+                        <button onclick="startRpgStage(3)" class="mt-6 w-full py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 font-game font-bold text-slate-950 rounded-xl shadow-lg btn-rpg">
+                            ĐẮU TRÙM MA VƯƠNG 🔥
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVE RPG BATTLE ARENA (Hidden until stage starts) -->
+            <div id="rpg-battle-arena" class="space-y-4 hidden">
+                
+                <!-- Battle Top Info Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 p-3 rounded-2xl border border-purple-900/50">
+                    <button onclick="exitBattle()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 rounded-lg">
+                        <i class="fa-solid fa-arrow-left"></i> Thoát (Exit)
+                    </button>
+                    <div class="font-game text-sm text-amber-300">
+                        <span id="arena-stage-title">Stage 1: Rừng Vui Chơi</span> | Câu: <strong id="arena-question-index" class="text-lg text-white">1</strong>/14
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400">Đúng:</span>
+                        <span id="arena-correct-count" class="px-2.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono font-bold rounded-lg text-sm">0</span>
+                    </div>
+                </div>
+
+                <!-- Battle Graphical Canvas Area -->
+                <div id="battle-scene" class="relative min-h-[220px] sm:min-h-[260px] bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-950 rounded-2xl border-2 border-purple-900/60 overflow-hidden flex items-end justify-between p-4 sm:p-8">
+                    <!-- Background Elements -->
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
+
+                    <!-- Floating Hit Damage Container -->
+                    <div id="damage-container" class="absolute inset-0 pointer-events-none z-30"></div>
+
+                    <!-- HERO SPRITE BOX -->
+                    <div class="flex flex-col items-center gap-2 z-10">
+                        <div class="w-28 sm:w-36 bg-slate-900/80 p-2 rounded-xl border border-blue-500/40 text-center">
+                            <div class="flex justify-between text-[11px] font-bold text-blue-300 mb-1">
+                                <span>HERO</span>
+                                <span id="hero-hp-text">100/100 HP</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
+                                <div id="hero-hp-bar" class="hp-bar-fill h-full bg-emerald-500 w-full"></div>
+                            </div>
+                        </div>
+                        <!-- Hero Avatar Animation -->
+                        <div id="hero-sprite" class="text-6xl sm:text-7xl filter drop-shadow-[0_10px_10px_rgba(59,130,246,0.3)] transition-transform duration-200 animate-float">
+                            🧙‍♂️
+                        </div>
+                    </div>
+
+                    <!-- VS Emblem -->
+                    <div class="font-game text-xl sm:text-2xl font-black text-amber-500/40 opacity-80 z-0">VS</div>
+
+                    <!-- MONSTER SPRITE BOX -->
+                    <div class="flex flex-col items-center gap-2 z-10">
+                        <div class="w-28 sm:w-36 bg-slate-900/80 p-2 rounded-xl border border-red-500/40 text-center">
+                            <div class="flex justify-between text-[11px] font-bold text-red-300 mb-1">
+                                <span id="monster-name">QUÁI VẬT</span>
+                                <span id="monster-hp-text">100/100 HP</span>
+                            </div>
+                            <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
+                                <div id="monster-hp-bar" class="hp-bar-fill h-full bg-red-500 w-full"></div>
+                            </div>
+                        </div>
+                        <!-- Monster Avatar Animation -->
+                        <div id="monster-sprite" class="text-6xl sm:text-7xl filter drop-shadow-[0_10px_10px_rgba(239,68,68,0.3)] transition-transform duration-200 animate-float">
+                            👺
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timer Bar (30 seconds) -->
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center text-xs font-bold text-amber-300 px-1">
+                        <span>⏱️ THỜI GIAN TRẢ LỜI:</span>
+                        <span id="timer-text" class="text-sm font-mono font-black text-amber-400">30s</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
+                        <div id="timer-bar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 w-full transition-all duration-1000 linear"></div>
+                    </div>
+                </div>
+
+                <!-- Battle Question Box -->
+                <div class="rpg-card rounded-2xl p-5 sm:p-6 border-purple-500/50 space-y-4">
+                    <div class="flex items-center gap-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <span id="question-icon" class="text-3xl">❓</span>
+                        <div id="question-prompt" class="font-game text-base sm:text-lg font-bold text-amber-100 flex-1">
+                            <!-- Question injected here -->
+                        </div>
+                        <button onclick="speakQuestionText()" class="text-amber-400 hover:text-amber-300 text-xl p-2 bg-slate-900 rounded-xl border border-slate-800">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- 4 options dynamically injected -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. TEAM BATTLE MODE (ĐẤU ĐỘI) ==================== -->
+        <section id="tab-team" class="space-y-6 hidden">
+            <!-- Setup Team Screen -->
+            <div id="team-setup-screen" class="rpg-card rounded-2xl p-6 max-w-2xl mx-auto space-y-6 text-center">
+                <div>
+                    <h2 class="font-game text-3xl font-bold text-amber-300">ĐẤU ĐỘI LỚP HỌC (TEAM BATTLE)</h2>
+                    <p class="text-slate-400 text-sm mt-1">Chế độ thi đấu 2 đội luân phiên trả lời 14 câu hỏi với đồng hồ 30s!</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                    <div class="bg-red-950/40 p-4 rounded-xl border border-red-500/40 space-y-2">
+                        <label class="block text-xs font-bold text-red-300 uppercase">Đội 1 (Đội Đỏ):</label>
+                        <input id="team1-name-input" type="text" value="🔴 Rồng Đỏ (Red Dragons)" class="w-full bg-slate-950 border border-red-800 p-2.5 rounded-lg text-sm text-red-200 font-bold focus:outline-none focus:border-red-400">
+                    </div>
+                    <div class="bg-blue-950/40 p-4 rounded-xl border border-blue-500/40 space-y-2">
+                        <label class="block text-xs font-bold text-blue-300 uppercase">Đội 2 (Đội Xanh):</label>
+                        <input id="team2-name-input" type="text" value="🔵 Hổ Xanh (Blue Tigers)" class="w-full bg-slate-950 border border-blue-800 p-2.5 rounded-lg text-sm text-blue-200 font-bold focus:outline-none focus:border-blue-400">
+                    </div>
+                </div>
+
+                <button onclick="startTeamBattle()" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-game font-bold text-lg rounded-xl shadow-lg btn-rpg">
+                    BẮT ĐẦU THI ĐẤU ĐỘI 🚀
+                </button>
+            </div>
+
+            <!-- Active Team Battle Screen -->
+            <div id="team-battle-active" class="space-y-4 hidden">
+                <!-- Team Score Board -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div id="team1-card" class="bg-red-950/60 p-4 rounded-2xl border-2 border-red-500 text-center space-y-1 transition">
+                        <div id="team1-display-name" class="font-game font-bold text-red-300 text-sm sm:text-base">🔴 Rồng Đỏ</div>
+                        <div class="text-3xl sm:text-4xl font-black text-amber-300 font-mono" id="team1-score">0</div>
+                        <span class="text-[10px] text-red-400 font-bold uppercase tracking-wider">ĐIỂM ĐỘI ĐỎ</span>
+                    </div>
+
+                    <div id="team2-card" class="bg-blue-950/60 p-4 rounded-2xl border-2 border-slate-700 text-center space-y-1 opacity-60 transition">
+                        <div id="team2-display-name" class="font-game font-bold text-blue-300 text-sm sm:text-base">🔵 Hổ Xanh</div>
+                        <div class="text-3xl sm:text-4xl font-black text-amber-300 font-mono" id="team2-score">0</div>
+                        <span class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">ĐIỂM ĐỘI XANH</span>
+                    </div>
+                </div>
+
+                <!-- Current Turn Banner -->
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-xs text-slate-400 font-bold uppercase">LƯỢT THI ĐẤU HIỆN TẠI:</span>
+                    <div id="current-team-turn-banner" class="font-game text-xl font-bold text-red-400 animate-pulse-fast">
+                        🔴 Lượt của Rồng Đỏ!
+                    </div>
+                </div>
+
+                <!-- Team Timer Bar -->
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center text-xs font-bold text-amber-300 px-1">
+                        <span>⏱️ THỜI GIAN ĐỘI:</span>
+                        <span id="team-timer-text" class="text-sm font-mono font-black text-amber-400">30s</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
+                        <div id="team-timer-bar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500 w-full transition-all duration-1000 linear"></div>
+                    </div>
+                </div>
+
+                <!-- Team Question Box -->
+                <div class="rpg-card rounded-2xl p-5 sm:p-6 border-amber-500/50 space-y-4">
+                    <div class="flex items-center gap-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                        <span id="team-question-icon" class="text-3xl">❓</span>
+                        <div id="team-question-prompt" class="font-game text-base sm:text-lg font-bold text-amber-100 flex-1">
+                            <!-- Question injected -->
+                        </div>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="team-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Options injected -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- EXPLANATION MODAL (Hộp Thoại Giải Thích Ngữ Pháp / Từ Vựng Chi Tiết) -->
+    <div id="modal-explanation" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="rpg-card rounded-2xl max-w-lg w-full p-6 border-red-500/60 shadow-2xl space-y-4 animate-shake">
+            <div class="flex items-center gap-3 text-red-400">
+                <i class="fa-solid fa-circle-xmark text-3xl"></i>
+                <h3 class="font-game text-xl font-bold">RẤT TIẾC, TRẢ LỜI CHƯA ĐÚNG!</h3>
+            </div>
+            
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                <div class="text-xs text-slate-400 font-bold uppercase">Đáp án chính xác:</div>
+                <div id="modal-correct-answer" class="text-base font-bold text-emerald-400 font-game">
+                    <!-- Correct answer text -->
+                </div>
+            </div>
+
+            <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-800/50 space-y-2">
+                <div class="text-xs text-amber-300 font-bold uppercase flex items-center gap-1">
+                    <i class="fa-solid fa-lightbulb"></i> Giải thích ngữ pháp & từ vựng:
+                </div>
+                <p id="modal-explanation-text" class="text-xs sm:text-sm text-amber-100 leading-relaxed">
+                    <!-- Detailed explanation -->
+                </p>
+            </div>
+
+            <button onclick="closeExplanationModal()" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-game font-bold text-base rounded-xl shadow-lg btn-rpg">
+                ĐÃ HIỂU, TIẾP TỤC CHIẾN ĐẤU ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- STAGE END RESULT MODAL (Kết Quả Trận Đấu) -->
+    <div id="modal-result" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="rpg-card-gold rounded-3xl max-w-md w-full p-6 sm:p-8 text-center space-y-6 shadow-2xl">
+            <div id="result-icon-box" class="w-20 h-20 mx-auto rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-5xl">
+                🏆
+            </div>
+
+            <div>
+                <h2 id="result-title" class="font-game text-2xl sm:text-3xl font-bold text-amber-300">
+                    CHIẾN THẮNG HOÀN HẢO!
+                </h2>
+                <p id="result-subtitle" class="text-xs text-slate-300 mt-1">Bạn đã xuất sắc đánh bại quái vật!</p>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Số câu đúng:</span>
+                    <strong id="result-score-text" class="text-amber-400 font-mono text-lg">12 / 14</strong>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Tỷ lệ chính xác:</span>
+                    <strong id="result-percent-text" class="text-emerald-400 font-mono text-lg">85%</strong>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Máu còn lại:</span>
+                    <strong id="result-hp-text" class="text-red-400 font-mono text-lg">60/100 HP</strong>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="exitBattle()" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-game font-bold rounded-xl btn-rpg text-sm">
+                    Về Trang Chủ 🏠
+                </button>
+                <button id="result-action-btn" onclick="retryStage()" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-game font-bold rounded-xl btn-rpg text-sm">
+                    Đấu Lại 🔄
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Confetti Canvas -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-3 text-center text-xs text-slate-500 font-semibold">
+        ENGLISH RPG ADVENTURE • Unit 7: Places to Go (Lesson 1 & 2) • Educational Game for Students
+    </footer>
+
+    <script>
+        // ==================== DATASETS ====================
+        const LESSON_1_VOCAB = [
+            { en: 'beach', vi: 'bãi biển', ipa: '/biːtʃ/', emoji: '🏖️' },
+            { en: 'aquarium', vi: 'thủy cung', ipa: '/əˈkweə.ri.əm/', emoji: '🐠' },
+            { en: 'amusement park', vi: 'công viên giải trí', ipa: '/əˈmjuːz.mənt pɑːk/', emoji: '🎡' },
+            { en: 'museum', vi: 'bảo tàng', ipa: '/mjuːˈziː.əm/', emoji: '🏛️' },
+            { en: 'hotel', vi: 'khách sạn', ipa: '/həʊˈtel/', emoji: '🏨' },
+            { en: 'pool', vi: 'hồ bơi', ipa: '/puːl/', emoji: '🏊' },
+            { en: 'yesterday', vi: 'ngày hôm qua', ipa: '/ˈjes.tə.deɪ/', emoji: '📅' },
+            { en: 'today', vi: 'hôm nay', ipa: '/təˈdeɪ/', emoji: '📆' }
+        ];
+
+        const LESSON_2_VOCAB = [
+            { en: 'bookstore', vi: 'hiệu sách / nhà sách', ipa: '/ˈbʊk.stɔːr/', emoji: '📚' },
+            { en: 'pharmacy', vi: 'hiệu thuốc / nhà thuốc', ipa: '/ˈfɑː.mə.si/', emoji: '💊' },
+            { en: 'toy store', vi: 'cửa hàng đồ chơi', ipa: '/tɔɪ stɔːr/', emoji: '🧸' },
+            { en: 'hair salon', vi: 'tiệm làm tóc / cắt tóc', ipa: '/heə səˈlɒn/', emoji: '✂️' },
+            { en: 'coffee shop', vi: 'quán cà phê', ipa: '/ˈkɒf.i ʃɒp/', emoji: '☕' },
+            { en: 'flower shop', vi: 'cửa hàng hoa / tiệm hoa', ipa: '/ˈflaʊ.ə ʃɒp/', emoji: '💐' },
+            { en: 'they', vi: 'họ / các bạn ấy', ipa: '/ðeɪ/', emoji: '👥' },
+            { en: 'were', vi: 'đã ở (dạng quá khứ đi với they/we/you)', ipa: '/wɜːr/', emoji: '⌛' }
+        ];
+
+        // 14 QUESTIONS FOR STAGE 1 (Lesson 1)
+        const STAGE_1_QUESTIONS = [
+            {
+                q: "Where was he yesterday? ➔ He was at the ____. 🏖️",
+                options: ["beach", "pharmacy", "toy store", "coffee shop"],
+                answer: 0,
+                explain: "Hình bãi biển 🏖️ tương ứng với từ 'beach'. 'He was at the beach.'"
+            },
+            {
+                q: "She was at the ____ to see colorful fish. 🐠",
+                options: ["hotel", "aquarium", "flower shop", "bookstore"],
+                answer: 1,
+                explain: "Nơi có nhiều cá 🐠 là thủy cung 'aquarium'."
+            },
+            {
+                q: "Where was she yesterday? ➔ She ____ at the museum.",
+                options: ["were", "was", "are", "is"],
+                answer: 1,
+                explain: "Với chủ ngữ số ít 'She', thì quá khứ đơn ta dùng 'was'."
+            },
+            {
+                q: "Was he at the hotel yesterday? ➔ Yes, he ____.",
+                options: ["wasn't", "was", "were", "weren't"],
+                answer: 1,
+                explain: "Câu hỏi 'Was he...?' khi đồng ý (Yes) trả lời: 'Yes, he was.'"
+            },
+            {
+                q: "Was she at the pool yesterday? ➔ No, she ____.",
+                options: ["was", "were", "wasn't", "weren't"],
+                answer: 2,
+                explain: "Câu hỏi 'Was she...?' khi phủ định (No) trả lời: 'No, she wasn't.' (wasn't = was not)."
+            },
+            {
+                q: "Từ 'bãi biển' trong tiếng Anh là gì?",
+                options: ["pool", "museum", "beach", "aquarium"],
+                answer: 2,
+                explain: "'Bãi biển' trong tiếng Anh là 'beach'."
+            },
+            {
+                q: "Từ 'công viên giải trí' trong tiếng Anh là gì?",
+                options: ["amusement park", "toy store", "hair salon", "coffee shop"],
+                answer: 0,
+                explain: "'Công viên giải trí' là 'amusement park'."
+            },
+            {
+                q: "Where ____ he yesterday? ➔ He was at the amusement park.",
+                options: ["were", "was", "is", "are"],
+                answer: 1,
+                explain: "Hỏi nơi ở quá khứ của 'he': 'Where was he yesterday?'"
+            },
+            {
+                q: "He wasn't at the hotel today. He was at the pool ____.",
+                options: ["today", "tomorrow", "yesterday", "now"],
+                answer: 2,
+                explain: "'Yesterday' nghĩa là ngày hôm qua, diễn tả sự việc đã xảy ra trong quá khứ."
+            },
+            {
+                q: "Was he at the aquarium yesterday? ➔ No, he wasn't. He was at the ____. 🏊",
+                options: ["hotel", "pool", "museum", "beach"],
+                answer: 1,
+                explain: "Hình hồ bơi 🏊 là 'pool'."
+            },
+            {
+                q: "Từ 'khách sạn' trong tiếng Anh là gì?",
+                options: ["hotel", "bookstore", "pharmacy", "aquarium"],
+                answer: 0,
+                explain: "'Khách sạn' trong tiếng Anh là 'hotel'."
+            },
+            {
+                q: "Where was she yesterday? ➔ ____ was at the pool.",
+                options: ["He", "She", "They", "We"],
+                answer: 1,
+                explain: "Câu hỏi hỏi về 'she' nên câu trả lời phải dùng chủ ngữ 'She'."
+            },
+            {
+                q: "Điền từ đúng: 'He ___ (ở) at the museum yesterday.'",
+                options: ["were", "was", "aren't", "weren't"],
+                answer: 1,
+                explain: "Chủ ngữ 'He' đi với động từ quá khứ 'was'."
+            },
+            {
+                q: "Was she at the beach yesterday? ➔ Yes, she ____.",
+                options: ["wasn't", "weren't", "was", "were"],
+                answer: 2,
+                explain: "Trả lời khẳng định cho 'Was she...?': 'Yes, she was.'"
+            }
+        ];
+
+        // 14 QUESTIONS FOR STAGE 2 (Lesson 2)
+        const STAGE_2_QUESTIONS = [
+            {
+                q: "Where were they yesterday? ➔ They ____ at the bookstore. 📚",
+                options: ["was", "were", "is", "wasn't"],
+                answer: 1,
+                explain: "Chủ ngữ số nhiều 'They' trong quá khứ đi với 'were'."
+            },
+            {
+                q: "They were at the ____ to buy medicines. 💊",
+                options: ["pharmacy", "toy store", "coffee shop", "flower shop"],
+                answer: 0,
+                explain: "Nơi mua thuốc 💊 là hiệu thuốc 'pharmacy'."
+            },
+            {
+                q: "Where ____ they yesterday? ➔ They were at the flower shop. 💐",
+                options: ["was", "is", "were", "are"],
+                answer: 2,
+                explain: "Cấu trúc hỏi nhiều người ở đâu quá khứ: 'Where were they yesterday?'"
+            },
+            {
+                q: "Were they at the toy store yesterday? ➔ Yes, they ____. 🧸",
+                options: ["were", "weren't", "was", "wasn't"],
+                answer: 0,
+                explain: "Trả lời Yes cho câu hỏi 'Were they...?': 'Yes, they were.'"
+            },
+            {
+                q: "Were they at the coffee shop yesterday? ➔ No, they ____. ☕",
+                options: ["were", "weren't", "wasn't", "was"],
+                answer: 1,
+                explain: "Trả lời No cho câu hỏi 'Were they...?': 'No, they weren't.' (weren't = were not)."
+            },
+            {
+                q: "Từ 'hiệu sách / nhà sách' trong tiếng Anh là gì?",
+                options: ["bookstore", "pharmacy", "hair salon", "hotel"],
+                answer: 0,
+                explain: "'Hiệu sách / nhà sách' là 'bookstore'."
+            },
+            {
+                q: "Từ 'tiệm làm tóc / cắt tóc' trong tiếng Anh là gì?",
+                options: ["toy store", "hair salon", "coffee shop", "flower shop"],
+                answer: 1,
+                explain: "'Tiệm cắt tóc' là 'hair salon'."
+            },
+            {
+                q: "Were they at the pharmacy yesterday? ➔ No, they weren't. They ____ at the coffee shop.",
+                options: ["were", "was", "wasn't", "are"],
+                answer: 0,
+                explain: "Sau khi đính chính nơi đúng, ta dùng 'They were at the...'."
+            },
+            {
+                q: "____ were they yesterday? ➔ They were at the hair salon. ✂️",
+                options: ["What", "Where", "Who", "When"],
+                answer: 1,
+                explain: "Hỏi địa điểm/nơi chốn ta dùng từ hỏi 'Where'."
+            },
+            {
+                q: "They ____ at the flower shop yesterday. 🌸",
+                options: ["was", "wasn't", "were", "is"],
+                answer: 2,
+                explain: "Chủ ngữ 'They' đi với 'were'."
+            },
+            {
+                q: "Từ 'cửa hàng đồ chơi' trong tiếng Anh là gì?",
+                options: ["toy store", "bookstore", "pharmacy", "museum"],
+                answer: 0,
+                explain: "'Cửa hàng đồ chơi' là 'toy store'."
+            },
+            {
+                q: "Were they at the hair salon yesterday? ➔ No, they ____.",
+                options: ["wasn't", "weren't", "were", "was"],
+                answer: 1,
+                explain: "Đại từ 'they' dạng phủ định quá khứ là 'weren't'."
+            },
+            {
+                q: "Đại từ nào sau đây đi với 'were' trong quá khứ?",
+                options: ["He", "She", "They", "I"],
+                answer: 2,
+                explain: "'They' đi với 'were'. Còn 'He', 'She', 'I' đi với 'was'."
+            },
+            {
+                q: "Were they at the bookstore yesterday? ➔ Yes, they ____.",
+                options: ["were", "weren't", "was", "wasn't"],
+                answer: 0,
+                explain: "Khẳng định của 'Were they...?' là 'Yes, they were.'"
+            }
+        ];
+
+        // 14 QUESTIONS FOR STAGE 3 (Boss Battle - Combined)
+        const STAGE_3_QUESTIONS = [
+            {
+                q: "Where was he yesterday? ➔ He ____ at the aquarium. 🐠",
+                options: ["was", "were", "wasn't", "weren't"],
+                answer: 0,
+                explain: "Chủ ngữ 'He' đi với 'was'."
+            },
+            {
+                q: "Where were they yesterday? ➔ They ____ at the pharmacy. 💊",
+                options: ["was", "were", "wasn't", "is"],
+                answer: 1,
+                explain: "Chủ ngữ 'They' đi với 'were'."
+            },
+            {
+                q: "Was she at the beach yesterday? ➔ No, she ____. She was at the pool. 🏊",
+                options: ["was", "wasn't", "were", "weren't"],
+                answer: 1,
+                explain: "'She' phủ định là 'wasn't'."
+            },
+            {
+                q: "Were they at the toy store yesterday? ➔ No, they ____. 🧸",
+                options: ["wasn't", "weren't", "were", "was"],
+                answer: 1,
+                explain: "'They' phủ định là 'weren't'."
+            },
+            {
+                q: "He was at the ____ to watch statues and history artifacts. 🏛️",
+                options: ["museum", "beach", "hair salon", "coffee shop"],
+                answer: 0,
+                explain: "Bảo tàng là 'museum'."
+            },
+            {
+                q: "They were at the ____ to buy beautiful roses. 💐",
+                options: ["flower shop", "bookstore", "hotel", "pool"],
+                answer: 0,
+                explain: "Cửa hàng hoa là 'flower shop'."
+            },
+            {
+                q: "____ was she yesterday? ➔ She was at the hotel. 🏨",
+                options: ["Where", "What", "When", "Who"],
+                answer: 0,
+                explain: "Từ hỏi địa điểm: 'Where'."
+            },
+            {
+                q: "Were they at the coffee shop yesterday? ➔ Yes, they ____. ☕",
+                options: ["were", "weren't", "was", "wasn't"],
+                answer: 0,
+                explain: "Khẳng định Yes + they + were."
+            },
+            {
+                q: "Was he at the amusement park yesterday? ➔ Yes, he ____. 🎡",
+                options: ["was", "wasn't", "were", "weren't"],
+                answer: 0,
+                explain: "Khẳng định Yes + he + was."
+            },
+            {
+                q: "Chọn từ đúng: 'Yesterday' có nghĩa là gì?",
+                options: ["hôm nay", "ngày mai", "ngày hôm qua", "tuần sau"],
+                answer: 2,
+                explain: "'Yesterday' nghĩa là ngày hôm qua."
+            },
+            {
+                q: "She wasn't at the hair salon yesterday. She ____ at the bookstore. 📚",
+                options: ["was", "were", "wasn't", "weren't"],
+                answer: 0,
+                explain: "Chủ ngữ 'She' dùng 'was' cho vế khẳng định."
+            },
+            {
+                q: "They wasn't at the pool yesterday. ➔ Tìm lỗi sai trong câu!",
+                options: ["wasn't (sửa thành weren't)", "pool (sửa thành beach)", "yesterday (sửa thành today)", "Câu này không sai"],
+                answer: 0,
+                explain: "Chủ ngữ 'They' không đi với 'wasn't', phải sửa thành 'weren't'."
+            },
+            {
+                q: "____ he at the hotel yesterday? ➔ Yes, he was.",
+                options: ["Was", "Were", "Is", "Are"],
+                answer: 0,
+                explain: "Đầu câu hỏi cho chủ ngữ 'he' quá khứ dùng 'Was'."
+            },
+            {
+                q: "____ they at the aquarium yesterday? ➔ No, they weren't.",
+                options: ["Were", "Was", "Are", "Do"],
+                answer: 0,
+                explain: "Đầu câu hỏi cho chủ ngữ 'they' quá khứ dùng 'Were'."
+            }
+        ];
+
+        // ==================== STATE MANAGEMENT ====================
+        let currentAudioMuted = false;
+        let currentTab = 'study';
+        let currentStudyLesson = 1;
+        
+        // RPG Game State
+        let currentStage = 1;
+        let currentQuestionIdx = 0;
+        let activeQuestions = [];
+        let heroHp = 100;
+        let monsterHp = 100;
+        let correctCount = 0;
+        let timerInterval = null;
+        let timerSeconds = 30;
+
+        // Mini-Game State
+        let vocabScore = 0;
+        let selectedMatchCards = [];
+        let grammarQuizIdx = 0;
+
+        // Team Battle State
+        let team1Name = "🔴 Rồng Đỏ";
+        let team2Name = "🔵 Hổ Xanh";
+        let team1Score = 0;
+        let team2Score = 0;
+        let currentTeamTurn = 1; // 1 or 2
+        let teamQuestionIdx = 0;
+        let teamQuestions = [];
+        let teamTimerInterval = null;
+        let teamTimerSeconds = 30;
+
+        // Web Audio Synthesizer Engine
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSynthSound(type) {
+            if (currentAudioMuted) return;
+            try {
+                if (!audioCtx) audioCtx = new AudioContext();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'correct') {
+                    // Upward chime
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2); // A5
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'wrong') {
+                    // Low buzz
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(90, now + 0.3);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'attack') {
+                    // Sword swing hit
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } else if (type === 'win') {
+                    // Fanfare chord
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const subOsc = audioCtx.createOscillator();
+                        const subGain = audioCtx.createGain();
+                        subOsc.connect(subGain);
+                        subGain.connect(audioCtx.destination);
+                        subOsc.type = 'sine';
+                        subOsc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        subGain.gain.setValueAtTime(0.2, now + idx * 0.08);
+                        subGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.4);
+                        subOsc.start(now + idx * 0.08);
+                        subOsc.stop(now + idx * 0.08 + 0.4);
+                    });
+                } else if (type === 'tick') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                }
+            } catch (e) {
+                console.warn('Audio play failed', e);
+            }
+        }
+
+        // Text To Speech API
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function toggleSound() {
+            currentAudioMuted = !currentAudioMuted;
+            const btn = document.getElementById('sound-btn');
+            if (currentAudioMuted) {
+                btn.innerHTML = `<i class="fa-solid fa-volume-xmark text-lg text-slate-500"></i>`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-volume-high text-lg text-amber-400"></i>`;
+                playSynthSound('correct');
+            }
+        }
+
+        // ==================== TAB SWITCHING ====================
+        function switchTab(tab) {
+            currentTab = tab;
+            ['study', 'practice', 'rpg', 'team'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).classList.remove('bg-purple-600', 'text-white', 'shadow-md');
+                document.getElementById(`nav-${t}`).classList.add('text-slate-400');
+            });
+
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tab}`);
+            activeNav.classList.add('bg-purple-600', 'text-white', 'shadow-md');
+            activeNav.classList.remove('text-slate-400');
+
+            if (tab === 'practice') {
+                startVocabMiniGame();
+            }
+        }
+
+        function switchStudyLesson(lesson) {
+            currentStudyLesson = lesson;
+            if (lesson === 1) {
+                document.getElementById('study-lesson-1').classList.remove('hidden');
+                document.getElementById('study-lesson-2').classList.add('hidden');
+                document.getElementById('subtab-l1').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200";
+                document.getElementById('subtab-l2').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500";
+            } else {
+                document.getElementById('study-lesson-1').classList.add('hidden');
+                document.getElementById('study-lesson-2').classList.remove('hidden');
+                document.getElementById('subtab-l1').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500";
+                document.getElementById('subtab-l2').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200";
+            }
+        }
+
+        // Render Vocab Grid Flashcards
+        function renderVocabGrids() {
+            const l1Grid = document.getElementById('l1-vocab-grid');
+            l1Grid.innerHTML = LESSON_1_VOCAB.map(v => `
+                <div class="rpg-card rounded-2xl p-4 flex flex-col items-center text-center justify-between border-purple-900/40 hover:border-amber-400/60 transition group">
+                    <div class="text-4xl my-2 transform group-hover:scale-110 transition">${v.emoji}</div>
+                    <div class="space-y-1">
+                        <div class="font-game font-bold text-lg text-amber-300 capitalize">${v.en}</div>
+                        <div class="text-xs font-mono text-purple-300">${v.ipa}</div>
+                        <div class="text-xs text-slate-300 font-semibold">${v.vi}</div>
+                    </div>
+                    <button onclick="speakText('${v.en}')" class="mt-3 px-3 py-1 bg-slate-800 hover:bg-purple-600 text-xs font-bold rounded-lg text-amber-400 hover:text-white transition w-full flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> Nghe đọc
+                    </button>
+                </div>
+            `).join('');
+
+            const l2Grid = document.getElementById('l2-vocab-grid');
+            l2Grid.innerHTML = LESSON_2_VOCAB.map(v => `
+                <div class="rpg-card rounded-2xl p-4 flex flex-col items-center text-center justify-between border-purple-900/40 hover:border-pink-400/60 transition group">
+                    <div class="text-4xl my-2 transform group-hover:scale-110 transition">${v.emoji}</div>
+                    <div class="space-y-1">
+                        <div class="font-game font-bold text-lg text-amber-300 capitalize">${v.en}</div>
+                        <div class="text-xs font-mono text-purple-300">${v.ipa}</div>
+                        <div class="text-xs text-slate-300 font-semibold">${v.vi}</div>
+                    </div>
+                    <button onclick="speakText('${v.en}')" class="mt-3 px-3 py-1 bg-slate-800 hover:bg-purple-600 text-xs font-bold rounded-lg text-amber-400 hover:text-white transition w-full flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-volume-high"></i> Nghe đọc
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ==================== MINI-GAMES ENGINE ====================
+        function switchMiniGame(type) {
+            if (type === 'vocab') {
+                document.getElementById('game-vocab-container').classList.remove('hidden');
+                document.getElementById('game-grammar-container').classList.add('hidden');
+                document.getElementById('minigame-tab-vocab').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200";
+                document.getElementById('minigame-tab-grammar').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500";
+                startVocabMiniGame();
+            } else {
+                document.getElementById('game-vocab-container').classList.add('hidden');
+                document.getElementById('game-grammar-container').classList.remove('hidden');
+                document.getElementById('minigame-tab-vocab').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-slate-700 bg-slate-900/50 text-slate-400 hover:border-slate-500";
+                document.getElementById('minigame-tab-grammar').className = "px-5 py-2.5 rounded-xl font-game text-sm font-bold border-2 border-purple-500 bg-purple-900/40 text-purple-200";
+                startGrammarMiniGame();
+            }
+        }
+
+        function startVocabMiniGame() {
+            vocabScore = 0;
+            selectedMatchCards = [];
+            document.getElementById('vocab-score').innerText = vocabScore;
+
+            const pool = [...LESSON_1_VOCAB, ...LESSON_2_VOCAB].sort(() => 0.5 - Math.random()).slice(0, 6);
+            let cards = [];
+            pool.forEach((item, idx) => {
+                cards.push({ id: idx, type: 'en', text: item.en, matchKey: idx });
+                cards.push({ id: idx, type: 'vi', text: item.vi, matchKey: idx });
+            });
+            cards.sort(() => 0.5 - Math.random());
+
+            const grid = document.getElementById('vocab-match-grid');
+            grid.innerHTML = cards.map((c, index) => `
+                <button id="vcard-${index}" onclick="handleVocabCardClick(${index}, ${c.matchKey}, '${c.text}')" 
+                        class="p-4 bg-slate-900 border-2 border-slate-700 hover:border-amber-400 rounded-xl font-game text-sm font-bold transition flex items-center justify-center text-center h-20">
+                    ${c.text}
+                </button>
+            `).join('');
+        }
+
+        function handleVocabCardClick(cardIdx, matchKey, text) {
+            playSynthSound('tick');
+            speakText(text);
+
+            const cardBtn = document.getElementById(`vcard-${cardIdx}`);
+            if (cardBtn.classList.contains('bg-emerald-900')) return; // already matched
+
+            cardBtn.classList.remove('border-slate-700');
+            cardBtn.classList.add('border-amber-400', 'bg-amber-950/40');
+
+            selectedMatchCards.push({ idx: cardIdx, matchKey: matchKey, btn: cardBtn });
+
+            if (selectedMatchCards.length === 2) {
+                const [c1, c2] = selectedMatchCards;
+                if (c1.idx !== c2.idx && c1.matchKey === c2.matchKey) {
+                    // Match success!
+                    playSynthSound('correct');
+                    c1.btn.className = "p-4 bg-emerald-900/60 border-2 border-emerald-500 rounded-xl font-game text-sm font-bold text-emerald-200 flex items-center justify-center text-center h-20";
+                    c2.btn.className = "p-4 bg-emerald-900/60 border-2 border-emerald-500 rounded-xl font-game text-sm font-bold text-emerald-200 flex items-center justify-center text-center h-20";
+                    vocabScore += 10;
+                    document.getElementById('vocab-score').innerText = vocabScore;
+                } else {
+                    // Match fail
+                    playSynthSound('wrong');
+                    setTimeout(() => {
+                        c1.btn.className = "p-4 bg-slate-900 border-2 border-slate-700 hover:border-amber-400 rounded-xl font-game text-sm font-bold transition flex items-center justify-center text-center h-20";
+                        c2.btn.className = "p-4 bg-slate-900 border-2 border-slate-700 hover:border-amber-400 rounded-xl font-game text-sm font-bold transition flex items-center justify-center text-center h-20";
+                    }, 500);
+                }
+                selectedMatchCards = [];
+            }
+        }
+
+        // Grammar Fill-in Quiz Mini Game
+        const GRAMMAR_MINI_QUESTIONS = [
+            { q: "Where ____ he yesterday?", options: ["was", "were", "is", "are"], ans: 0 },
+            { q: "They ____ at the pharmacy yesterday.", options: ["was", "were", "wasn't", "is"], ans: 1 },
+            { q: "Was she at the beach? ➔ No, she ____.", options: ["was", "were", "wasn't", "weren't"], ans: 2 },
+            { q: "Were they at the bookstore? ➔ Yes, they ____.", options: ["were", "weren't", "was", "wasn't"], ans: 0 }
+        ];
+
+        function startGrammarMiniGame() {
+            grammarQuizIdx = 0;
+            renderGrammarQuizQuestion();
+        }
+
+        function renderGrammarQuizQuestion() {
+            const item = GRAMMAR_MINI_QUESTIONS[grammarQuizIdx];
+            document.getElementById('grammar-quiz-question').innerText = item.q;
+            document.getElementById('grammar-quiz-feedback').className = "p-3 rounded-lg text-center font-bold text-sm hidden";
+
+            const opts = document.getElementById('grammar-quiz-options');
+            opts.innerHTML = item.options.map((opt, i) => `
+                <button onclick="checkGrammarMiniAns(${i})" class="p-3 bg-slate-800 hover:bg-purple-600 border border-slate-700 font-game font-bold text-sm rounded-xl transition">
+                    ${opt}
+                </button>
+            `).join('');
+        }
+
+        function checkGrammarMiniAns(selectedIdx) {
+            const item = GRAMMAR_MINI_QUESTIONS[grammarQuizIdx];
+            const feedback = document.getElementById('grammar-quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIdx === item.ans) {
+                playSynthSound('correct');
+                feedback.className = "p-3 rounded-lg text-center font-bold text-sm bg-emerald-950 border border-emerald-500 text-emerald-300";
+                feedback.innerText = "🎉 Đúng rồi! Giỏi quá!";
+                setTimeout(() => {
+                    grammarQuizIdx = (grammarQuizIdx + 1) % GRAMMAR_MINI_QUESTIONS.length;
+                    renderGrammarQuizQuestion();
+                }, 1200);
+            } else {
+                playSynthSound('wrong');
+                feedback.className = "p-3 rounded-lg text-center font-bold text-sm bg-red-950 border border-red-500 text-red-300";
+                feedback.innerText = "❌ Sai rồi, thử lại xem nhé!";
+            }
+        }
+
+        // ==================== RPG BATTLE ENGINE ====================
+        function startRpgStage(stageNum) {
+            currentStage = stageNum;
+            currentQuestionIdx = 0;
+            correctCount = 0;
+            heroHp = 100;
+            monsterHp = 100;
+
+            if (stageNum === 1) {
+                activeQuestions = [...STAGE_1_QUESTIONS];
+                document.getElementById('arena-stage-title').innerText = "Stage 1: Rừng Vui Chơi";
+                document.getElementById('monster-name').innerText = "GREEN GOBLIN";
+                document.getElementById('monster-sprite').innerText = "👺";
+            } else if (stageNum === 2) {
+                activeQuestions = [...STAGE_2_QUESTIONS];
+                document.getElementById('arena-stage-title').innerText = "Stage 2: Thành Phố Cửa Hàng";
+                document.getElementById('monster-name').innerText = "URBAN GOLEM";
+                document.getElementById('monster-sprite').innerText = "🗿";
+            } else {
+                activeQuestions = [...STAGE_3_QUESTIONS];
+                document.getElementById('arena-stage-title').innerText = "Stage 3: Trùm Ma Vương";
+                document.getElementById('monster-name').innerText = "SHADOW LORD";
+                document.getElementById('monster-sprite').innerText = "🐉";
+            }
+
+            // Shuffle questions for freshness
+            activeQuestions.sort(() => 0.5 - Math.random());
+
+            document.getElementById('rpg-stage-select').classList.add('hidden');
+            document.getElementById('rpg-battle-arena').classList.remove('hidden');
+
+            updateHpDisplay();
+            renderRpgQuestion();
+        }
+
+        function updateHpDisplay() {
+            document.getElementById('hero-hp-text').innerText = `${heroHp}/100 HP`;
+            const heroBar = document.getElementById('hero-hp-bar');
+            heroBar.style.width = `${heroHp}%`;
+            if (heroHp > 50) heroBar.className = "hp-bar-fill h-full bg-emerald-500";
+            else if (heroHp > 20) heroBar.className = "hp-bar-fill h-full bg-amber-500";
+            else heroBar.className = "hp-bar-fill h-full bg-red-500 animate-pulse";
+
+            document.getElementById('monster-hp-text').innerText = `${monsterHp}/100 HP`;
+            const monsterBar = document.getElementById('monster-hp-bar');
+            monsterBar.style.width = `${monsterHp}%`;
+        }
+
+        function renderRpgQuestion() {
+            if (currentQuestionIdx >= 14 || heroHp <= 0) {
+                finishRpgStage();
+                return;
+            }
+
+            const currentQ = activeQuestions[currentQuestionIdx];
+            document.getElementById('arena-question-index').innerText = currentQuestionIdx + 1;
+            document.getElementById('arena-correct-count').innerText = correctCount;
+
+            document.getElementById('question-prompt').innerText = currentQ.q;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = currentQ.options.map((opt, i) => `
+                <button onclick="handleRpgAnswer(${i})" class="p-4 bg-slate-900 border-2 border-slate-800 hover:border-amber-400 hover:bg-slate-800 rounded-xl font-game text-sm font-bold transition flex items-center gap-3 text-left group btn-rpg">
+                    <span class="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/40 text-purple-300 flex items-center justify-center font-mono font-bold group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                        ${String.fromCharCode(65 + i)}
+                    </span>
+                    <span class="flex-1 text-slate-100">${opt}</span>
+                </button>
+            `).join('');
+
+            resetQuestionTimer();
+        }
+
+        function speakQuestionText() {
+            const currentQ = activeQuestions[currentQuestionIdx];
+            speakText(currentQ.q);
+        }
+
+        function resetQuestionTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 30;
+            const timerBar = document.getElementById('timer-bar');
+            const timerText = document.getElementById('timer-text');
+
+            timerBar.style.width = '100%';
+            timerText.innerText = '30s';
+
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                timerText.innerText = `${timerSeconds}s`;
+                const percent = (timerSeconds / 30) * 100;
+                timerBar.style.width = `${percent}%`;
+
+                if (timerSeconds <= 5) playSynthSound('tick');
+
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    // Time out -> Incorrect
+                    handleRpgAnswer(-1, true);
+                }
+            }, 1000);
+        }
+
+        function triggerDamageFloat(amount, isMonster) {
+            const container = document.getElementById('damage-container');
+            const num = document.createElement('div');
+            num.className = `absolute font-black font-game text-2xl hit-number ${isMonster ? 'text-amber-400 right-16 top-10' : 'text-red-500 left-16 top-10'}`;
+            num.innerText = `-${amount} HP`;
+            container.appendChild(num);
+            setTimeout(() => num.remove(), 800);
+        }
+
+        function handleRpgAnswer(selectedOptionIdx, isTimeout = false) {
+            clearInterval(timerInterval);
+            const currentQ = activeQuestions[currentQuestionIdx];
+
+            if (!isTimeout && selectedOptionIdx === currentQ.answer) {
+                // Correct answer! Attack Monster!
+                playSynthSound('attack');
+                playSynthSound('correct');
+                correctCount++;
+
+                // Animate Hero attack sprite
+                const heroSprite = document.getElementById('hero-sprite');
+                heroSprite.classList.add('translate-x-12', 'scale-125');
+                setTimeout(() => heroSprite.classList.remove('translate-x-12', 'scale-125'), 200);
+
+                // Monster hit animation
+                const monsterSprite = document.getElementById('monster-sprite');
+                monsterSprite.classList.add('animate-shake');
+                setTimeout(() => monsterSprite.classList.remove('animate-shake'), 400);
+
+                // Deal damage to monster (~7-8 HP per correct answer to clear 100 HP across 14 Qs)
+                const damage = Math.ceil(100 / 12);
+                monsterHp = Math.max(0, monsterHp - damage);
+                triggerDamageFloat(damage, true);
+                updateHpDisplay();
+
+                setTimeout(() => {
+                    currentQuestionIdx++;
+                    renderRpgQuestion();
+                }, 1000);
+
+            } else {
+                // Wrong answer or Timeout! Monster Attacks Hero!
+                playSynthSound('wrong');
+
+                // Animate Screen Shake & Hurt
+                const arena = document.getElementById('battle-scene');
+                arena.classList.add('animate-shake', 'border-red-500');
+                setTimeout(() => arena.classList.remove('animate-shake', 'border-red-500'), 400);
+
+                // Hero lose HP
+                heroHp = Math.max(0, heroHp - 20);
+                triggerDamageFloat(20, false);
+                updateHpDisplay();
+
+                // Show detailed grammar/vocab explanation modal
+                showExplanationModal(currentQ, isTimeout);
+            }
+        }
+
+        function showExplanationModal(q, isTimeout) {
+            const modal = document.getElementById('modal-explanation');
+            const correctAnsText = q.options[q.answer];
+            
+            document.getElementById('modal-correct-answer').innerText = `${q.q.replace('____', correctAnsText)}`;
+            document.getElementById('modal-explanation-text').innerText = isTimeout 
+                ? `⌛ Đã hết 30 giây! ${q.explain}` 
+                : `${q.explain}`;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeExplanationModal() {
+            document.getElementById('modal-explanation').classList.add('hidden');
+            currentQuestionIdx++;
+            renderRpgQuestion();
+        }
+
+        function finishRpgStage() {
+            clearInterval(timerInterval);
+            const passed = correctCount >= 10 && heroHp > 0;
+
+            const modal = document.getElementById('modal-result');
+            const iconBox = document.getElementById('result-icon-box');
+            const title = document.getElementById('result-title');
+            const subtitle = document.getElementById('result-subtitle');
+            const scoreText = document.getElementById('result-score-text');
+            const percentText = document.getElementById('result-percent-text');
+            const hpText = document.getElementById('result-hp-text');
+
+            scoreText.innerText = `${correctCount} / 14`;
+            const pct = Math.round((correctCount / 14) * 100);
+            percentText.innerText = `${pct}%`;
+            hpText.innerText = `${heroHp}/100 HP`;
+
+            if (passed) {
+                playSynthSound('win');
+                launchConfetti();
+                iconBox.innerHTML = '🏆';
+                title.innerText = 'CHIẾN THẮNG QUÁI VẬT!';
+                subtitle.innerText = 'Bạn đã hoàn thành xuất sắc màn chơi và thu thập nhiều kinh nghiệm!';
+            } else {
+                playSynthSound('wrong');
+                iconBox.innerHTML = '💀';
+                title.innerText = 'CHƯA ĐẠT YÊU CẦU!';
+                subtitle.innerText = 'Cần đúng tối thiểu 10/14 câu và giữ máu > 0 để qua màn. Hãy thử lại nhé!';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function retryStage() {
+            document.getElementById('modal-result').classList.add('hidden');
+            startRpgStage(currentStage);
+        }
+
+        function exitBattle() {
+            clearInterval(timerInterval);
+            document.getElementById('modal-result').classList.add('hidden');
+            document.getElementById('rpg-battle-arena').classList.add('hidden');
+            document.getElementById('rpg-stage-select').classList.remove('hidden');
+        }
+
+        // ==================== TEAM BATTLE MODE ====================
+        function startTeamBattle() {
+            team1Name = document.getElementById('team1-name-input').value || "🔴 Rồng Đỏ";
+            team2Name = document.getElementById('team2-name-input').value || "🔵 Hổ Xanh";
+
+            team1Score = 0;
+            team2Score = 0;
+            currentTeamTurn = 1;
+            teamQuestionIdx = 0;
+
+            document.getElementById('team1-display-name').innerText = team1Name;
+            document.getElementById('team2-display-name').innerText = team2Name;
+            document.getElementById('team1-score').innerText = '0';
+            document.getElementById('team2-score').innerText = '0';
+
+            // Pool all 14 questions combined
+            teamQuestions = [...STAGE_3_QUESTIONS].sort(() => 0.5 - Math.random());
+
+            document.getElementById('team-setup-screen').classList.add('hidden');
+            document.getElementById('team-battle-active').classList.remove('hidden');
+
+            renderTeamQuestion();
+        }
+
+        function renderTeamQuestion() {
+            if (teamQuestionIdx >= 14) {
+                finishTeamBattle();
+                return;
+            }
+
+            // Update turn banner & card highlights
+            const banner = document.getElementById('current-team-turn-banner');
+            const card1 = document.getElementById('team1-card');
+            const card2 = document.getElementById('team2-card');
+
+            if (currentTeamTurn === 1) {
+                banner.innerText = `🔴 Lượt của ${team1Name}!`;
+                banner.className = "font-game text-xl font-bold text-red-400 animate-pulse-fast";
+                card1.className = "bg-red-950/80 p-4 rounded-2xl border-2 border-red-500 text-center space-y-1 shadow-lg shadow-red-500/20";
+                card2.className = "bg-blue-950/40 p-4 rounded-2xl border-2 border-slate-800 text-center space-y-1 opacity-50";
+            } else {
+                banner.innerText = `🔵 Lượt của ${team2Name}!`;
+                banner.className = "font-game text-xl font-bold text-blue-400 animate-pulse-fast";
+                card2.className = "bg-blue-950/80 p-4 rounded-2xl border-2 border-blue-500 text-center space-y-1 shadow-lg shadow-blue-500/20";
+                card1.className = "bg-red-950/40 p-4 rounded-2xl border-2 border-slate-800 text-center space-y-1 opacity-50";
+            }
+
+            const q = teamQuestions[teamQuestionIdx];
+            document.getElementById('team-question-prompt').innerText = `[Câu ${teamQuestionIdx + 1}/14] ${q.q}`;
+
+            const container = document.getElementById('team-options-container');
+            container.innerHTML = q.options.map((opt, i) => `
+                <button onclick="handleTeamAnswer(${i})" class="p-4 bg-slate-900 border-2 border-slate-800 hover:border-amber-400 hover:bg-slate-800 rounded-xl font-game text-sm font-bold transition flex items-center gap-3 text-left btn-rpg">
+                    <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-mono font-bold">
+                        ${String.fromCharCode(65 + i)}
+                    </span>
+                    <span class="text-slate-100">${opt}</span>
+                </button>
+            `).join('');
+
+            resetTeamTimer();
+        }
+
+        function resetTeamTimer() {
+            clearInterval(teamTimerInterval);
+            teamTimerSeconds = 30;
+            const timerBar = document.getElementById('team-timer-bar');
+            const timerText = document.getElementById('team-timer-text');
+
+            timerBar.style.width = '100%';
+            timerText.innerText = '30s';
+
+            teamTimerInterval = setInterval(() => {
+                teamTimerSeconds--;
+                timerText.innerText = `${teamTimerSeconds}s`;
+                timerBar.style.width = `${(teamTimerSeconds / 30) * 100}%`;
+
+                if (teamTimerSeconds <= 0) {
+                    clearInterval(teamTimerInterval);
+                    handleTeamAnswer(-1); // timeout
+                }
+            }, 1000);
+        }
+
+        function handleTeamAnswer(selectedIdx) {
+            clearInterval(teamTimerInterval);
+            const q = teamQuestions[teamQuestionIdx];
+
+            if (selectedIdx === q.answer) {
+                playSynthSound('correct');
+                if (currentTeamTurn === 1) team1Score += 10;
+                else team2Score += 10;
+            } else {
+                playSynthSound('wrong');
+            }
+
+            document.getElementById('team1-score').innerText = team1Score;
+            document.getElementById('team2-score').innerText = team2Score;
+
+            // Switch turn & next question
+            currentTeamTurn = currentTeamTurn === 1 ? 2 : 1;
+            teamQuestionIdx++;
+
+            setTimeout(() => {
+                renderTeamQuestion();
+            }, 600);
+        }
+
+        function finishTeamBattle() {
+            clearInterval(teamTimerInterval);
+            playSynthSound('win');
+            launchConfetti();
+
+            let winnerText = "";
+            if (team1Score > team2Score) winnerText = `🎉 ${team1Name} CHIẾN THẮNG TUYỆT ĐỐI!`;
+            else if (team2Score > team1Score) winnerText = `🎉 ${team2Name} CHIẾN THẮNG TUYỆT ĐỐI!`;
+            else winnerText = "🤝 HAI ĐỘI HÒA NHAU VỚI TỶ SỐ CÂN BẰNG!";
+
+            alert(`${winnerText}\n\nĐiểm số:\n${team1Name}: ${team1Score} điểm\n${team2Name}: ${team2Score} điểm`);
+
+            document.getElementById('team-battle-active').classList.add('hidden');
+            document.getElementById('team-setup-screen').classList.remove('hidden');
+        }
+
+        // Confetti Particle Generator
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = Array.from({ length: 80 }).map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 8 + 4,
+                color: ['#fbbf24', '#f43f5e', '#3b82f6', '#10b981', '#a855f7'][Math.floor(Math.random() * 5)],
+                vy: Math.random() * 4 + 2,
+                vx: Math.random() * 2 - 1
+            }));
+
+            let frames = 0;
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                });
+
+                frames++;
+                if (frames < 150) requestAnimationFrame(animateConfetti);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            animateConfetti();
+        }
+
+        // ==================== INITIALIZATION ====================
+        window.onload = function() {
+            renderVocabGrids();
+        }
+    </script>
+</body>
+</html>
